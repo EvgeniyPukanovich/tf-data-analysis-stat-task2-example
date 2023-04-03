@@ -8,16 +8,9 @@ chat_id = 970839957 # Ваш chat ID, не меняйте название пе�
 
 def solution(p: float, x: np.array) -> tuple:
     alpha = 1 - p
-    n = len(x)
-    # оцениваем параметры распределения ошибок измерения
-    mu = np.mean(x)
-    s = np.std(x, ddof=1)
-    # вычисляем стандартную ошибку среднего
-    se = s / np.sqrt(n)
-    # вычисляем критическое значение
-    z = norm.ppf(1 - alpha/2)
-    # вычисляем интервал
-    interval = z * se
-    lower = mu - interval
-    upper = mu + interval
-    return (lower, upper)
+    errors = x - x.mean()
+    a_errors_exp = expon.ppf(alpha / 2) / (len(x) * min(errors))
+    b_errors_exp = expon.ppf(1 - alpha / 2) / (len(x) * min(errors))
+    a_errors_final = 0.5 - b_errors_exp
+    b_errors_final = 0.5 - a_errors_exp
+    return (min(a_errors_exp, b_errors_final) + x.mean()) / 4, (max(a_errors_exp, b_errors_final) + x.mean()) / 4
