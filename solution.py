@@ -1,16 +1,15 @@
 import pandas as pd
 import numpy as np
 
-from scipy.stats import expon
+from scipy.stats import gamma
 
 
-chat_id = 970839957 # Ваш chat ID, не меняйте название переменной
+chat_id = 970839957  # Ваш chat ID, не меняйте название переменной
 
 def solution(p: float, x: np.array) -> tuple:
-    alpha = 1 - p
-    errors = x - x.mean()
-    a_errors_exp = expon.ppf(alpha / 2) / (len(x) * min(errors))
-    b_errors_exp = expon.ppf(1 - alpha / 2) / (len(x) * min(errors))
-    a_errors_final = 0.5 - b_errors_exp
-    b_errors_final = 0.5 - a_errors_exp
-    return (min(a_errors_exp, b_errors_final) + x.mean()) / 4, (max(a_errors_exp, b_errors_final) + x.mean()) / 4
+    # Измените код этой функции
+    # Это будет вашим решением
+    # Не меняйте название функции и её аргументы
+    n = x.shape[0]
+    m = x.mean()
+    return m/2 - 0.25 + gamma.ppf((1 - p)/2, n) / (2 * n), m/2 - 0.25 + gamma.ppf((1 + p)/2, n) / (2 * n)
